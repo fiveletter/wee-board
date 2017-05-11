@@ -1,0 +1,31 @@
+{ 
+  characteristics: [
+    { 
+      properties: [ 'Read', 'WriteWithoutResponse', 'Notify' ],
+      isNotifying: false,
+      characteristic: 'FFE1',
+      service: 'FFE0' 
+    }
+  ],
+  id: '859276F0-4E01-4C0B-948A-9258D60AFCC6',
+  rssi: -55,
+  advertising: 
+  { 
+    kCBAdvDataIsConnectable: true,
+    kCBAdvDataLocalName: 'DSD TECHHM-10',
+    kCBAdvDataServiceUUIDs: [ 'FFE0' ],
+    kCBAdvDataServiceData: { 
+      B000: { 
+        CDVType: 'ArrayBuffer', 
+        data: 'AAAAAA==' 
+      }
+    },
+    kCBAdvDataTxPowerLevel: 0,
+    kCBAdvDataManufacturerData: { 
+      CDVType: 'ArrayBuffer', 
+      data: 'SE3UNjmbPo4=' 
+    } 
+  },
+    name: 'DSD TECHHM-10',
+    services: [ 'FFE0' ] 
+  }
