@@ -35,6 +35,8 @@ enum {
     shared_SensorQueue,    ///< Shared handle used by examples (producer and consumer tasks)
     shared_learnSemaphore, ///< Terminal command gives this semaphore to remoteTask (IR sensor task)
     shared_diagnosticMotor1PWM, ///< gives PWM duty cycle
+    shared_UART2rxQueue, ///< Sends UART 2 rx data to BLErxTask
+    shared_dutyCycleQueue, ///< Sends decoded UART2 rx data to motor_tasks
 };
 
 

@@ -50,3 +50,6 @@ local.properties
 
 # Ecliipse IDE directory
 RemoteSystemsTempFiles
+
+# Mac OS specific files
+.DS_Store

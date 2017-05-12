@@ -11,7 +11,9 @@
 class SpeedControllerTask: public scheduler_task
 {
   public:
-    SpeedControllerTask(uint8_t priority): scheduler_task("SpeedControllerTask", 1000, priority), motor1(EscMotor::pwm1, 500)
+    SpeedControllerTask(uint8_t priority): 
+        scheduler_task("SpeedControllerTask", 1000, priority), 
+        motor1(EscMotor::pwm1, 500)
     {
       /* DO NOTHING */
     }
