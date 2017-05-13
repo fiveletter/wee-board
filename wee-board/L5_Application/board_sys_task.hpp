@@ -9,10 +9,10 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "json_object.hpp"
 #include "uart2.hpp"
 #include "scheduler_task.hpp"
 #include "shared_handles.h"
-#include "json_object.hpp"
 
 class BoardSysTask : public scheduler_task
 {
@@ -40,7 +40,10 @@ class BoardSysTask : public scheduler_task
       JSONObject json_object;
       json_object.set("speed", 1234);
 
-      uart2.put(json_object.stringify());
+      char* json_string = json_object.stringify();
+
+      printf("sending value %s\n", json_string);
+      uart2.put(json_string);
       vTaskDelay(1000);
       return true;
     }
