@@ -16,9 +16,17 @@
 #include "scheduler_task.hpp"
 #include "shared_handles.h"
 
+/* Max bytes a rx value can be */
 #define MAX_BUFFER_SIZE     20
-#define DUTY_CYCLE_BYTES    2
+
+/* DECODING SYMBOLS
+*  
+*  Note: Different values will always have different start symbols and the same 
+*  terimatino symbols
+*/
+#define TERMINATION_SYMBOL  '~'
 #define DUTY_CYCLE_SYMBOL   '$'
+#define DUTY_CYCLE_BYTES    2
 
 
 typedef enum {
@@ -100,7 +108,7 @@ class BLErxTask : public scheduler_task
             next_state = ERROR;
           } 
           // Check for termination  
-          else if ((char) rx_data == DUTY_CYCLE_SYMBOL)
+          else if ((char) rx_data == TERMINATION_SYMBOL)
           {
             // Check for mailformed data
             if (rx_decode.index != rx_decode.expected_bytes)
@@ -123,7 +131,15 @@ class BLErxTask : public scheduler_task
           break;
         case ERROR:
           handle_error();
-          next_state = IDLE;
+          
+          /* 
+          *  When we first get an error wait until a termination is received 
+          *  before rying to recover from the error 
+          */
+          if ((char)rx_data == TERMINATION_SYMBOL)
+          {
+            next_state = IDLE;
+          }
           break;
         default:
           /* SHOULD NEVER GET HERE */
@@ -135,7 +151,7 @@ class BLErxTask : public scheduler_task
 
     bool is_first_entry_into_rx_state(BLErxState_t next_state)
     {
-      return rx_decode.previous_state == IDLE && 
+      return rx_decode.state == IDLE && 
             (next_state == DUTY_CYCLE_RX);
     }
 
@@ -166,9 +182,13 @@ class BLErxTask : public scheduler_task
 
     void send_duty_cycle()
     {
-      uint16_t duty_cycle = rx_decode.byte_buffer[0] << 8 | rx_decode.byte_buffer[1] << 0;
-      printf("Received duty cycle %d\n", duty_cycle);
-      // QueueHandle_t duty_cycle_q = scheduler_task::getSharedObject()
+      uint16_t duty_cycle = rx_decode.byte_buffer[0] << 8 | rx_decode.byte_buffer[1];
+      QueueHandle_t duty_cycle_q = scheduler_task::getSharedObject(shared_dutyCycleQueue);
+
+      if (!xQueueSend(duty_cycle_q, &duty_cycle, 0))
+      {
+        printf("duty_cycle_q is full!!\n");
+      }
     }
 
     rxDecode_t rx_decode;
