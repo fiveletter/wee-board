@@ -23,10 +23,10 @@
  * 			@see L0_LowLevel/lpc_sys.h if you wish to override printf/scanf functions.
  *
  */
-#include "tasks.hpp"
-#include "motor_tasks.hpp"
+#include "ble_rx_task.hpp"
 #include "examples/examples.hpp"
-#include "ble_task.hpp"
+#include "motor_tasks.hpp"
+#include "tasks.hpp"
 
 /**
  * The main() creates tasks or "threads".  See the documentation of scheduler_task class at scheduler_task.hpp
