@@ -24,6 +24,7 @@
  *
  */
 #include "ble_rx_task.hpp"
+#include "board_sys_task.hpp"
 #include "examples/examples.hpp"
 #include "motor_tasks.hpp"
 #include "tasks.hpp"
@@ -48,6 +49,7 @@ int main(void)
     scheduler_add_task(new SpeedControllerTask(PRIORITY_HIGH));
 
     scheduler_add_task(new BLErxTask(PRIORITY_MEDIUM));
+    scheduler_add_task(new BoardSysTask(PRIORITY_MEDIUM));
 
     /**
      * A few basic tasks for this bare-bone system :

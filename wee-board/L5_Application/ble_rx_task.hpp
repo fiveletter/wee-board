@@ -60,9 +60,6 @@ class BLErxTask : public scheduler_task
 
     bool init(void)
     {
-      Uart2& uart2 = Uart2::getInstance();
-      uart2.init(9600);
-
       QueueHandle_t uart2rx_q = xQueueCreate(64, sizeof(uint8_t));
       addSharedObject(shared_UART2rxQueue, uart2rx_q);
 
