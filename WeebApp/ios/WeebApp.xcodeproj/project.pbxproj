@@ -38,12 +38,6 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		6F21A71AE1C345E698787683 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F730D0F6ABD4B66AB24BB2A /* libRNSound.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		903CEEF91EC141BF005EE1F1 /* goku-1-transparent.gif in Resources */ = {isa = PBXBuildFile; fileRef = 903CEEF71EC141BE005EE1F1 /* goku-1-transparent.gif */; };
-		903CEEFA1EC141BF005EE1F1 /* goku-1-transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 903CEEF81EC141BE005EE1F1 /* goku-1-transparent.png */; };
-		903CEF181EC141CD005EE1F1 /* goku-2-transparent.gif in Resources */ = {isa = PBXBuildFile; fileRef = 903CEF161EC141CD005EE1F1 /* goku-2-transparent.gif */; };
-		903CEF191EC141CD005EE1F1 /* goku-2-transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 903CEF171EC141CD005EE1F1 /* goku-2-transparent.png */; };
-		903CEF1C1EC141EC005EE1F1 /* goku-3-transparent.gif in Resources */ = {isa = PBXBuildFile; fileRef = 903CEF1A1EC141EC005EE1F1 /* goku-3-transparent.gif */; };
-		903CEF1D1EC141EC005EE1F1 /* goku-3-transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 903CEF1B1EC141EC005EE1F1 /* goku-3-transparent.png */; };
 		90A2E5431EBFC94800106898 /* goku-scream-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 90A2E53F1EBFC94800106898 /* goku-scream-1.wav */; };
 		90A2E5441EBFC94800106898 /* goku-scream-2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 90A2E5401EBFC94800106898 /* goku-scream-2.wav */; };
 		90A2E5451EBFC94800106898 /* goku-scream-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 90A2E5411EBFC94800106898 /* goku-scream-3.wav */; };
@@ -283,12 +277,6 @@
 		6E7A670856DD40EBAE8928B3 /* BleManager.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BleManager.xcodeproj; path = "../node_modules/react-native-ble-manager/ios/BleManager.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		903CEEF71EC141BE005EE1F1 /* goku-1-transparent.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "goku-1-transparent.gif"; path = "../app/resources/goku-1-gif/goku-1-transparent.gif"; sourceTree = "<group>"; };
-		903CEEF81EC141BE005EE1F1 /* goku-1-transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "goku-1-transparent.png"; path = "../app/resources/goku-1-gif/goku-1-transparent.png"; sourceTree = "<group>"; };
-		903CEF161EC141CD005EE1F1 /* goku-2-transparent.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "goku-2-transparent.gif"; path = "../app/resources/goku-2-gif/goku-2-transparent.gif"; sourceTree = "<group>"; };
-		903CEF171EC141CD005EE1F1 /* goku-2-transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "goku-2-transparent.png"; path = "../app/resources/goku-2-gif/goku-2-transparent.png"; sourceTree = "<group>"; };
-		903CEF1A1EC141EC005EE1F1 /* goku-3-transparent.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "goku-3-transparent.gif"; path = "../app/resources/goku-3-gif/goku-3-transparent.gif"; sourceTree = "<group>"; };
-		903CEF1B1EC141EC005EE1F1 /* goku-3-transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "goku-3-transparent.png"; path = "../app/resources/goku-3-gif/goku-3-transparent.png"; sourceTree = "<group>"; };
 		90A2E53F1EBFC94800106898 /* goku-scream-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "goku-scream-1.wav"; path = "../app/resources/goku-scream-1.wav"; sourceTree = "<group>"; };
 		90A2E5401EBFC94800106898 /* goku-scream-2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "goku-scream-2.wav"; path = "../app/resources/goku-scream-2.wav"; sourceTree = "<group>"; };
 		90A2E5411EBFC94800106898 /* goku-scream-3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "goku-scream-3.wav"; path = "../app/resources/goku-scream-3.wav"; sourceTree = "<group>"; };
@@ -547,12 +535,6 @@
 		90A2E53E1EBFC93600106898 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				903CEF1A1EC141EC005EE1F1 /* goku-3-transparent.gif */,
-				903CEF1B1EC141EC005EE1F1 /* goku-3-transparent.png */,
-				903CEF161EC141CD005EE1F1 /* goku-2-transparent.gif */,
-				903CEF171EC141CD005EE1F1 /* goku-2-transparent.png */,
-				903CEEF71EC141BE005EE1F1 /* goku-1-transparent.gif */,
-				903CEEF81EC141BE005EE1F1 /* goku-1-transparent.png */,
 				90A2E53F1EBFC94800106898 /* goku-scream-1.wav */,
 				90A2E5401EBFC94800106898 /* goku-scream-2.wav */,
 				90A2E5411EBFC94800106898 /* goku-scream-3.wav */,
@@ -945,15 +927,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				903CEF1C1EC141EC005EE1F1 /* goku-3-transparent.gif in Resources */,
 				90A2E5431EBFC94800106898 /* goku-scream-1.wav in Resources */,
-				903CEF1D1EC141EC005EE1F1 /* goku-3-transparent.png in Resources */,
-				903CEF181EC141CD005EE1F1 /* goku-2-transparent.gif in Resources */,
-				903CEEF91EC141BF005EE1F1 /* goku-1-transparent.gif in Resources */,
 				90A2E5451EBFC94800106898 /* goku-scream-3.wav in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				903CEF191EC141CD005EE1F1 /* goku-2-transparent.png in Resources */,
-				903CEEFA1EC141BF005EE1F1 /* goku-1-transparent.png in Resources */,
 				90A2E5441EBFC94800106898 /* goku-scream-2.wav in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				90A2E5461EBFC94800106898 /* la-cuca.wav in Resources */,

@@ -95,24 +95,34 @@ export class Bluetooth extends Component
 
       NativeAppEventEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', 
         ({peripheral, characteristic, service, value}) => {
-          console.log("Peripheral:", peripheral);
-          console.log("Characteristic:", characteristic);
-          console.log("Service:", service);
-          console.log("Value:", value);
+          function hex2a(hex) {
+            var str = '';
+            for (var i = 0; i < hex.length; i += 2) {
+              var v = parseInt(hex.substr(i, 2), 16);
+              if (v) str += String.fromCharCode(v);
+            }
+            return str;
+          }
+
+          console.log("Value:", hex2a(value));
       });
 
       setInterval(()=> {
         let id = peripheralInfo.id;
         let chr = peripheralInfo.characteristics[0];
-        let inputString = 'Weeb';
+        
+        let byte_array = new Uint8Array(4);
+        let duty_cycle = 1500;
+        byte_array[0] = '$'.charCodeAt(0);
+        byte_array[1] = (duty_cycle & 0xFF00) >> 8;
+        byte_array[2] = (duty_cycle & 0xFF);
+        byte_array[3] = '~'.charCodeAt(0);
 
         BleManager.writeWithoutResponse(
           id, 
           chr.service, 
           chr.characteristic, 
-          Base64.fromByteArray(inputString.split('').map((char) => {
-            return char.charCodeAt(0);
-          })),
+          Base64.fromByteArray(byte_array),
           64
         )
         .then(()=>{
@@ -122,7 +132,7 @@ export class Bluetooth extends Component
           console.log('Unable to write data');
           console.log(error);
         });
-      }, 1000)
+      }, 5000)
 
       return;
     }).catch((error)=> {
