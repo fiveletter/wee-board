@@ -47,11 +47,7 @@ int main(void)
     /* Wee Board Tasks*/
     scheduler_add_task(new SpeedControllerTask(PRIORITY_HIGH));
 
-    /*Bluetooth Tasks*/
-	Uart2& u2 = Uart2::getInstance();
-	u2.init(9600);
-    scheduler_add_task(new BLEputTask(PRIORITY_MEDIUM));
-    scheduler_add_task(new BLEgetTask(PRIORITY_MEDIUM));
+    scheduler_add_task(new BLErxTask(PRIORITY_MEDIUM));
 
     /**
      * A few basic tasks for this bare-bone system :

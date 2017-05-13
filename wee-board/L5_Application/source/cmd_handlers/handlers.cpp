@@ -50,7 +50,7 @@ CMD_HANDLER_FUNC(motor1PWMHandler)
     uint32_t microseconds = 0;
     cmdParams.scanf("%d", &microseconds);
      
-    QueueHandle_t qid = scheduler_task::getSharedObject(shared_diagnosticMotor1PWM);
+    QueueHandle_t qid = scheduler_task::getSharedObject(shared_diagCmdQueue);
     xQueueSend(qid, &microseconds, 0);
 
     return true;

@@ -11,17 +11,33 @@
 class SpeedControllerTask: public scheduler_task
 {
   public:
-    SpeedControllerTask(uint8_t priority): scheduler_task("SpeedControllerTask", 1000, priority), motor1(EscMotor::pwm1, 500)
+    SpeedControllerTask(uint8_t priority): 
+        scheduler_task("SpeedControllerTask", 1000, priority), 
+        motor1(EscMotor::pwm1, 500),
+        xQueueSet(0)
     {
       /* DO NOTHING */
     }
 
     bool init(void)
     {
-      // Init pwm duty cycle queue
-      QueueHandle_t motor1PWM_q = xQueueCreate(1, sizeof(uint32_t));
-      addSharedObject(shared_diagnosticMotor1PWM, motor1PWM_q);
+      // Init data Queues
+      const int DIAGNOSTIC_QUEUE = 2;
+      const int DUTY_CYCLE_QUEUE = 2;
+      QueueHandle_t diagnostic_q = xQueueCreate(DIAGNOSTIC_QUEUE, 
+                                                          sizeof(uint32_t));
+      QueueHandle_t duty_cycle_q = xQueueCreate(DUTY_CYCLE_QUEUE, 
+                                                          sizeof(uint16_t));
       
+      // Add Queues as shared object
+      addSharedObject(shared_diagCmdQueue, diagnostic_q);
+      addSharedObject(shared_dutyCycleQueue, duty_cycle_q);
+      
+      // Create Queue Set to run task on multiple RTOS objects
+      xQueueSet = xQueueCreateSet(DIAGNOSTIC_QUEUE + DUTY_CYCLE_QUEUE);
+      xQueueAddToSet(diagnostic_q, xQueueSet);
+      xQueueAddToSet(duty_cycle_q, xQueueSet);
+
       // Set duty cycle to 0 
       motor1.setDuty((uint32_t)1500);
       return true;
@@ -29,13 +45,23 @@ class SpeedControllerTask: public scheduler_task
 
     bool run(void *p)
     {
-      uint32_t duty_cycle_value = 0;
-      QueueHandle_t diagnostic_q = getSharedObject(shared_diagnosticMotor1PWM);
+      QueueHandle_t diagnostic_q = getSharedObject(shared_diagCmdQueue);
+      QueueHandle_t duty_cycle_q = getSharedObject(shared_dutyCycleQueue);
+      
+      // BLOCK UNTIL EVENT
+      QueueSetMemberHandle_t event = xQueueSelectFromSet(xQueueSet, portMAX_DELAY);
 
-
-      if (xQueueReceive(diagnostic_q, &duty_cycle_value, portMAX_DELAY))
+      if (event == diagnostic_q)
       {
-        motor1.setDuty(duty_cycle_value);
+        /* DO NOTHING */
+      }
+      else if (event == duty_cycle_q)
+      {
+        uint16_t duty_cycle = 0;
+        xQueueReceive(duty_cycle_q, &duty_cycle, 0);
+        
+        printf("Setting duty Cycle to %d\n", duty_cycle);
+        motor1.setDuty(duty_cycle);
       }
 
       return true;
@@ -43,6 +69,7 @@ class SpeedControllerTask: public scheduler_task
     
   private:
     EscMotor motor1;
+    QueueSetHandle_t xQueueSet;
 };
 
 #endif /* MOTOR_TASKS_HPP_ */
