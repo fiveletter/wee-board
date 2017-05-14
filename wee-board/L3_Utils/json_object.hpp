@@ -1,35 +1,35 @@
 /*
- * JSONObject.hpp
+ * JsonString.hpp
  *
  *  Created on: May 11, 2017
  *      Author: alex
  */
 
-#ifndef JSONObject_HPP_
-#define JSONObject_HPP_
+#ifndef JSON_OBJECT_HPP_
+#define JSON_OBJECT_HPP_
 
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
 #include <vector>
 
-class JSONObject
+class JsonString
 {
 private:
-  std::vector<char*> keyarray;
-  int* values;
-  char* retString;
-  int keyarraysize;
-  int valuearraysize;
-  
+	char *keyarray[50];
+	int values[50];
+	char retString[1000];
+	char holder[50][25];
+	int keyarraysize;
+	int valuearraysize;
 public:
-  JSONObject();
-  void set(char* key,int value);
-  char* stringify();
-  ~JSONObject();
+	JsonString();
+	void set(char* key,int value);
+	char* stringify();
+	~JsonString();
 };
 
 
 
 
-#endif /* JSONObject_HPP_ */
+#endif /* JSON_OBJECT_HPP_ */
