@@ -1,10 +1,11 @@
 import * as redux from 'redux';
 import thunk from 'redux-thunk';
-import {bleStatusReducer} from '../reducers/reducers.js';
+import {bleStatusReducer, bleDeviceReducer} from '../reducers/reducers.js';
 
 export let configure = () => {
   let reducer = redux.combineReducers({
-    bleConnected: bleStatusReducer
+    bleConnected: bleStatusReducer,
+    device: bleDeviceReducer
   });
 
   let store = redux.createStore(reducer, redux.compose(

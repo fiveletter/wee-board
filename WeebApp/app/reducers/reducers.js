@@ -8,3 +8,14 @@ export var bleStatusReducer = (state=false, action) => {
       return state
   }
 };
+
+export var bleDeviceReducer = (state={}, action) => {
+  switch(action.type) {
+    case 'ADD_DEVICE':
+      return action.device
+    case 'REMOVE_DEVICE':
+      return {}
+    default:
+      return state
+  }
+};
