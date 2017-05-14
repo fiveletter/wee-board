@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Link} from 'react-router-native';
-import {Global} from '../styles/global.js';
+import {connect} from 'react-redux';
 
 import BoardInfo from './BoardInfo.js';
 import BoardControl from './BoardControl.js';
@@ -18,11 +18,18 @@ export class Controller extends Component
   }
   render () 
   {
+    let {bleConnected} = this.props;
     let {speed, batteryVoltage} = this.state;
+    let backgroundColor = '#C8C8C8';
+    if (!bleConnected)
+    {
+      backgroundColor = 'red'
+    }
+
     return (
       <View style={{flex: 1, flexDirection: 'column'}}>
         <BoardInfo style={{flex: 1, margin: 10, 
-                          backgroundColor: '#C8C8C8'}}
+                          backgroundColor: backgroundColor}}
                     batteryVoltage={batteryVoltage} speed={speed}/>
         <BoardControl style={{flex: 1, margin: 10, justifyContent: 'center'}}/>
       </View>
@@ -30,4 +37,8 @@ export class Controller extends Component
   }
 }
 
-export default Controller;
+export default connect((state)=>{
+  return {
+    bleConnected: state.bleConnected
+  };
+})(Controller);

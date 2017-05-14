@@ -4,11 +4,12 @@ import {View,
         StyleSheet, 
         TouchableHighlight, 
         NativeAppEventEmitter} from 'react-native';
-import {Link} from 'react-router-native';
-import {Global} from '../styles/global.js';
 import BleManager from 'react-native-ble-manager';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-native';
 let Base64 = require('base64-js');
 
+import * as actions from '../actions/actions.js';
 import BluetoothDeviceList from './BluetoothDeviceList.js';
 
 export class Bluetooth extends Component 
@@ -76,11 +77,16 @@ export class Bluetooth extends Component
 
     this._handleStopScanning();
     BleManager.connect(deviceId).then((peripheralInfo)=> {
+      // Grab dispatch object to update connected State
       console.log('Connected');
-      console.log(peripheralInfo);
+      let {dispatch} = this.props;
+
+      // Change app state to BLE connected
+      dispatch(actions.setBLEConnected());
       
       let boardInfoCharacteristic = peripheralInfo.characteristics[0];
 
+      // Setup notification for specific service/characteristic
       BleManager.startNotification(peripheralInfo.id, 
                                   boardInfoCharacteristic.service,
                                   boardInfoCharacteristic.characteristic)
@@ -93,6 +99,7 @@ export class Bluetooth extends Component
         console.log(error);
       });
 
+      // Setup handler for on data change
       NativeAppEventEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', 
         ({peripheral, characteristic, service, value}) => {
           function hex2a(hex) {
@@ -203,4 +210,4 @@ export class Bluetooth extends Component
   }
 }
 
-export default Bluetooth;
+export default connect()(Bluetooth);
