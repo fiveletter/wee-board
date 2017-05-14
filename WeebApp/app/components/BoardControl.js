@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableHighlight, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableHighlight, Image, Alert} from 'react-native';
 import {Link} from 'react-router-native';
 import Sound from 'react-native-sound';
+import {connect} from 'react-redux';
+import BleManager from 'react-native-ble-manager';
+let Base64 = require('base64-js');
+import * as BleBoard from '../api/BleBoard.js';
 
 let image1 = require('../resources/goku-1-gif/goku-1-transparent.png');
 let image2 = require('../resources/goku-2-gif/goku-2-transparent.png');
@@ -116,6 +120,19 @@ export class BoardControl extends Component
 
   _handleControl(control)
   {
+    let {bleConnected} = this.props;
+    if (!bleConnected)
+    {
+      Alert.alert(
+        'Alert Title',
+        'Board not connected!',
+        [
+          {text: 'OK'}
+        ]);
+
+      return;
+    }
+
     let currentSpeed = this.state.currentSpeed;
     if (currentSpeed === control)
     {
@@ -156,6 +173,9 @@ export class BoardControl extends Component
         console.log('playback failed due to audio decoding errors');
       }
     });
+
+    let {device} = this.props;
+    BleBoard.sendDutyCycle(device.id, device.service, device.characteristic, 1600);
   }
 
   _control2(currentSpeed)
@@ -170,6 +190,9 @@ export class BoardControl extends Component
         console.log('playback failed due to audio decoding errors');
       }
     });
+    
+    let {device} = this.props;
+    BleBoard.sendDutyCycle(device.id, device.service, device.characteristic, 1700);
   }
 
   _control3(currentSpeed)
@@ -184,12 +207,18 @@ export class BoardControl extends Component
         console.log('playback failed due to audio decoding errors');
       }
     });
+
+    let {device} = this.props;
+    BleBoard.sendDutyCycle(device.id, device.service, device.characteristic, 1800);
   }
 
   _control4(currentSpeed)
   {
     console.log('Control 4 run');
     this._stopAllSounds();
+
+    let {device} = this.props;
+    BleBoard.sendDutyCycle(device.id, device.service, device.characteristic, 1500);
   }
 
   _stopAllSounds()
@@ -202,4 +231,9 @@ export class BoardControl extends Component
   }
 }
 
-export default BoardControl;
+export default connect((state)=>{
+  return {
+    bleConnected: state.bleConnected,
+    device: state.device
+  }
+})(BoardControl);

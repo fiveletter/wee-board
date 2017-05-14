@@ -17,3 +17,6 @@ $ npm install # Installs all dependecies in package.json
 
 $ react-native run-ios # Starts iOS simulation and loads in application
 ```
+
+# Running React Native Offline Bundle
+[Link to description](https://medium.com/the-react-native-log/first-time-deploying-with-react-native-f524eb3e705d)

@@ -4,11 +4,13 @@ import {View,
         StyleSheet, 
         TouchableHighlight, 
         NativeAppEventEmitter} from 'react-native';
-import {Link} from 'react-router-native';
-import {Global} from '../styles/global.js';
 import BleManager from 'react-native-ble-manager';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-native';
 let Base64 = require('base64-js');
 
+import * as actions from '../actions/actions.js';
+import * as BleBoard from '../api/BleBoard.js';
 import BluetoothDeviceList from './BluetoothDeviceList.js';
 
 export class Bluetooth extends Component 
@@ -76,11 +78,16 @@ export class Bluetooth extends Component
 
     this._handleStopScanning();
     BleManager.connect(deviceId).then((peripheralInfo)=> {
+      // Grab dispatch object to update connected State
       console.log('Connected');
-      console.log(peripheralInfo);
+      let {dispatch} = this.props;
+
+      // Change app state to BLE connected
+      dispatch(actions.setBLEConnected());
       
       let boardInfoCharacteristic = peripheralInfo.characteristics[0];
 
+      // Setup notification for specific service/characteristic
       BleManager.startNotification(peripheralInfo.id, 
                                   boardInfoCharacteristic.service,
                                   boardInfoCharacteristic.characteristic)
@@ -93,47 +100,20 @@ export class Bluetooth extends Component
         console.log(error);
       });
 
+      // Setup handler for on data change
       NativeAppEventEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', 
         ({peripheral, characteristic, service, value}) => {
-          function hex2a(hex) {
-            var str = '';
-            for (var i = 0; i < hex.length; i += 2) {
-              var v = parseInt(hex.substr(i, 2), 16);
-              if (v) str += String.fromCharCode(v);
-            }
-            return str;
-          }
-
-          console.log("Value:", hex2a(value));
+          console.log("Value:", BleBoard.decodeRxData(value));
       });
 
-      setInterval(()=> {
-        let id = peripheralInfo.id;
-        let chr = peripheralInfo.characteristics[0];
-        
-        let byte_array = new Uint8Array(4);
-        let duty_cycle = 1500;
-        byte_array[0] = '$'.charCodeAt(0);
-        byte_array[1] = (duty_cycle & 0xFF00) >> 8;
-        byte_array[2] = (duty_cycle & 0xFF);
-        byte_array[3] = '~'.charCodeAt(0);
-
-        BleManager.writeWithoutResponse(
-          id, 
-          chr.service, 
-          chr.characteristic, 
-          Base64.fromByteArray(byte_array),
-          64
-        )
-        .then(()=>{
-          // Pass
-        })
-        .catch((error)=>{
-          console.log('Unable to write data');
-          console.log(error);
-        });
-      }, 5000)
-
+      let device = {
+        id: peripheralInfo.id,
+        service: peripheralInfo.characteristics[0].service,
+        characteristic: peripheralInfo.characteristics[0].characteristic
+      };
+      console.log("Sending device through dispatch", device);
+      
+      dispatch(actions.addDevice(device));
       return;
     }).catch((error)=> {
       console.log('Could not connect to device');
@@ -203,4 +183,4 @@ export class Bluetooth extends Component
   }
 }
 
-export default Bluetooth;
+export default connect()(Bluetooth);
