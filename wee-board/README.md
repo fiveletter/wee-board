@@ -24,6 +24,12 @@ Battery Cage
 
 iPhone App Controller
 
+TO BUY
+Hall Effect Sensor (HES)
+Neodymium Magnet
+High-current operational Amplifier
+Light sensor/Photo resistor/photo transistor
+
 # App Specs
 ## Functionality
 - 3 Speed Buttons: Slow, Medium, Fast
