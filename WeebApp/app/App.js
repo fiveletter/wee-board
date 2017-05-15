@@ -8,9 +8,9 @@ import {Global} from './styles/global.js';
 import Navigation from './components/Navigation.js';
 import Controller from './components/Controller.js';
 import Bluetooth from './components/Bluetooth.js';
-
+import store from './store/configure.store.js'
 // Configure redux store 
-const store = require('./store/configure.store.js').configure();
+// const store = require('./store/configure.store.js').configure();
 
 // For debug purposes, printing out state on change
 store.subscribe(()=> {

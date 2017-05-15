@@ -5,31 +5,32 @@
  *      Author: alex
  */
 
-#ifndef JSONObject_HPP_
-#define JSONObject_HPP_
+#ifndef JSON_OBJECT_HPP_
+#define JSON_OBJECT_HPP_
 
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
 #include <vector>
 
+#define MAX_RET_STR_LEN 500
+#define MAX_ENTRIES 15
+#define MAX_KEY_VALUE_PAIR_LEN 25
+
 class JSONObject
 {
 private:
-  std::vector<char*> keyarray;
-  int* values;
-  char* retString;
-  int keyarraysize;
-  int valuearraysize;
-  
+	char *keyarray[MAX_ENTRIES];
+	int values[MAX_ENTRIES];
+	char retString[MAX_RET_STR_LEN];
+	char holder[MAX_ENTRIES][MAX_KEY_VALUE_PAIR_LEN];
+	int keyarraysize;
+	int valuearraysize;
 public:
-  JSONObject();
-  void set(char* key,int value);
-  char* stringify();
-  ~JSONObject();
+	JSONObject();
+	void set(char* key,int value);
+	char* stringify();
+	~JSONObject();
 };
 
-
-
-
-#endif /* JSONObject_HPP_ */
+#endif /* JSON_OBJECT_HPP_ */

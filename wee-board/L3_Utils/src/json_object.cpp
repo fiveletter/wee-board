@@ -9,8 +9,6 @@
 
 JSONObject::JSONObject()
 {
-  values = new int[5];
-  retString = NULL;
   keyarraysize = 0;
   valuearraysize = 0;
 }
@@ -19,11 +17,10 @@ void JSONObject::set(char* key, int value)
 {
   if(keyarraysize == 0)
   {
-    delete retString;
-    retString = new char[10];
+    memset(&retString[0], 0, sizeof(retString));
   }
   
-  keyarray.push_back(key);
+  keyarray[keyarraysize] = key;
   values[valuearraysize] = value;
   keyarraysize++;
   valuearraysize++;
@@ -31,18 +28,16 @@ void JSONObject::set(char* key, int value)
 
 char * JSONObject::stringify()
 {
-  retString = NULL;
-  if(!keyarray.empty() && values)
+  if(keyarraysize != 0 && valuearraysize != 0)
   {
-    asprintf(&retString,"{\"%s\":%i",keyarray[0],values[0]);
+    sprintf(holder[0],"{\"%s\":%d", keyarray[0],values[0]);
+    strcat(retString,holder[0]);
     for(int i = 1; i<keyarraysize; i++)
     {
-      asprintf(&retString, "%s,\"%s\":%i",retString,keyarray.at(i),values[i]);
+      sprintf(holder[i], ",\"%s\":%d",keyarray[i],values[i]);
+      strcat(retString,holder[i]);
     }
-    asprintf(&retString,"%s}",retString);
-    keyarray.clear();
-    delete[] values;
-    values = new int[5];
+    strcat(retString,"}");
     keyarraysize = 0;
     valuearraysize = 0;
     return retString;
@@ -56,7 +51,5 @@ char * JSONObject::stringify()
 
 JSONObject::~JSONObject()
 {
-  std::vector<char*> keyarray;
-  delete[] values;
-  delete retString;
+
 }

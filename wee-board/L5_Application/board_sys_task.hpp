@@ -18,7 +18,7 @@ class BoardSysTask : public scheduler_task
 {
   public:
     BoardSysTask(uint8_t priority) : 
-      scheduler_task("BoardSysTask", 2000, priority),
+      scheduler_task("BoardSysTask", 3000, priority),
       uart2(Uart2::getInstance())
     {
       /* DO NOTHING */
@@ -37,11 +37,12 @@ class BoardSysTask : public scheduler_task
 
     bool run(void *p)
     {
-      JSONObject json_object;
-      json_object.set("speed", 1234);
+      JSONObject json_object; ///< ONLY INSTANTIATE ONE OF THESE OBJECTS
+      json_object.set("speed", 1600);
+      json_object.set("battery", 90);
+      json_object.set("light", 12);
 
       char* json_string = json_object.stringify();
-
       printf("sending value %s\n", json_string);
       uart2.put(json_string);
       vTaskDelay(1000);
