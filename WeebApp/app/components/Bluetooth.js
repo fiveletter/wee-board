@@ -103,7 +103,7 @@ export class Bluetooth extends Component
       // Setup handler for on data change
       NativeAppEventEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', 
         ({peripheral, characteristic, service, value}) => {
-          console.log("Value:", BleBoard.decodeRxData(value));
+          BleBoard.decodeRxData(value);
       });
 
       let device = {

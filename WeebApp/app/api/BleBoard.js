@@ -1,5 +1,7 @@
 import BleManager from 'react-native-ble-manager';
 let Base64 = require('base64-js');
+import store from '../store/configure.store.js';
+
 
 export let sendDutyCycle = function (id, service, characteristic, duty)
 {
@@ -24,6 +26,9 @@ export let sendDutyCycle = function (id, service, characteristic, duty)
   });
 };
 
+/* DECODE RX DATA FROM BLE DEVICE */
+let tempString = "";
+
 export let decodeRxData = function (hex) 
 {
   var str = '';
@@ -31,5 +36,13 @@ export let decodeRxData = function (hex)
     var v = parseInt(hex.substr(i, 2), 16);
     if (v) str += String.fromCharCode(v);
   }
+  tempString += str;
+
+  if (tempString.slice(-1) === '}') 
+  {
+    console.log("Complete data:", tempString);
+    tempString = "";
+  }
+
   return str;
 };
