@@ -38,8 +38,10 @@ class BoardSysTask : public scheduler_task
     bool run(void *p)
     {
       JSONObject json_object; ///< ONLY INSTANTIATE ONE OF THESE OBJECTS
+
+      /* Keys for these properties are dictated by the mobile application */
       json_object.set("speed", 1600);
-      json_object.set("battery", 90);
+      json_object.set("batteryVoltage", 90);
       json_object.set("light", 12);
 
       char* json_string = json_object.stringify();

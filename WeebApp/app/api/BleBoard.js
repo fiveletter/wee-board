@@ -1,6 +1,7 @@
 import BleManager from 'react-native-ble-manager';
 let Base64 = require('base64-js');
 import store from '../store/configure.store.js';
+import * as actions from '../actions/actions.js';
 
 
 export let sendDutyCycle = function (id, service, characteristic, duty)
@@ -40,7 +41,9 @@ export let decodeRxData = function (hex)
 
   if (tempString.slice(-1) === '}') 
   {
-    console.log("Complete data:", tempString);
+    let rxData = JSON.parse(tempString);
+    
+    store.dispatch(actions.updateData(rxData));
     tempString = "";
   }
 

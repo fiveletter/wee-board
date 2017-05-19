@@ -1,10 +1,15 @@
 import * as redux from 'redux';
 import thunk from 'redux-thunk';
-import {bleStatusReducer, bleDeviceReducer} from '../reducers/reducers.js';
+import {bleStatusReducer, 
+        bleDeviceReducer, 
+        bleDeviceListReducer,
+        boardRxReducer} from '../reducers/reducers.js';
 
 let reducer = redux.combineReducers({
     bleConnected: bleStatusReducer,
-    device: bleDeviceReducer
+    device: bleDeviceReducer,
+    deviceList: bleDeviceListReducer,
+    boardData: boardRxReducer,
   });
 
   let store = redux.createStore(reducer, redux.compose(

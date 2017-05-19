@@ -19,3 +19,34 @@ export var bleDeviceReducer = (state={}, action) => {
       return state
   }
 };
+
+
+export var bleDeviceListReducer = (state=[], action) => {
+  switch(action.type) {
+    case 'ADD_DEVICE_TO_LIST':
+      return [
+      ...state, 
+      action.device];
+    case 'CLEAR_LIST':
+      return [];
+    default:
+      return state
+  }
+};
+
+let defaultBoardRxState = {
+  batteryVoltage: 0,
+  speed: 0
+};
+
+export var boardRxReducer = (state=defaultBoardRxState, action) => {
+  switch(action.type) {
+    case 'UPDATE_DATA':
+      return {
+        ...state,
+        ...action.rxData
+      };
+    default:
+      return state
+  }
+};
