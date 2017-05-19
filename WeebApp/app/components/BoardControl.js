@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableHighlight, Image, Alert} from 'react-native';
-import {Link} from 'react-router-native';
 import Sound from 'react-native-sound';
 import {connect} from 'react-redux';
-import BleManager from 'react-native-ble-manager';
-let Base64 = require('base64-js');
+
 import * as BleBoard from '../api/BleBoard.js';
 
 let image1 = require('../resources/goku-1-gif/goku-1-transparent.png');

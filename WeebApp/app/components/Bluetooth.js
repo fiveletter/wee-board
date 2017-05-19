@@ -6,12 +6,10 @@ import {View,
         NativeAppEventEmitter} from 'react-native';
 import BleManager from 'react-native-ble-manager';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-native';
-let Base64 = require('base64-js');
 
 import * as actions from '../actions/actions.js';
-import * as BleBoard from '../api/BleBoard.js';
 import BluetoothDeviceList from './BluetoothDeviceList.js';
+import ConnectedDevice from './ConnectedDevice.js';
 
 export class Bluetooth extends Component 
 {
@@ -20,7 +18,6 @@ export class Bluetooth extends Component
     super();
     
     this.state = {
-      bleDevices: [],
       scanning: false,
       countDown: undefined,
       countDownInterval: undefined,
@@ -34,10 +31,17 @@ export class Bluetooth extends Component
 
   componentDidMount()
   {
+    let {dispatch} = this.props;
+
+    /* BLE Manager Event Emitters */
     NativeAppEventEmitter.addListener('BleManagerStopScan',
       this._handleStopScanning);
     NativeAppEventEmitter.addListener('BleManagerDiscoverPeripheral',
       this._handleDiscoverPeripheral);
+    NativeAppEventEmitter.addListener('BleManagerConnectPeripheral',
+      ()=>{dispatch(actions.setBLEConnected())});
+    NativeAppEventEmitter.addListener('BleManagerDisconnectPeripheral',
+      ()=>{dispatch(actions.setBLEDisconnected())});
   }
 
   componentWillUnmount()
@@ -58,15 +62,17 @@ export class Bluetooth extends Component
     return (
       <View style={{flex: 1, flexDirection: 'column'}}>
         
-        <TouchableHighlight style={{height: 40, margin: 10, backgroundColor:'#f5f5f5'}}
+        <TouchableHighlight style={{height: 40, marginHorizontal: 10, marginVertical: 20, backgroundColor:'#f5f5f5'}}
                             onPress={()=> this._handlePressScan()}>
           <Text style={{flex: 1, padding: 10, textAlign: 'center'}}>
             {scanButtonText}
           </Text>
         </TouchableHighlight>
+        <Text style={{marginLeft: 10, marginBottom: 5, fontSize: 15}}>MY BOARD</Text>
+        <ConnectedDevice style={{marginBottom: 20, paddingTop: 20, paddingBottom: 20, backgroundColor: '#C8C8C8'}}></ConnectedDevice>
         
-        <BluetoothDeviceList style={{flex: 2, marginTop: 10, marginHorizontal: 10, backgroundColor: '#C8C8C8'}} 
-                            bleDevices={this.state.bleDevices}
+        <Text style={{marginLeft: 10, marginBottom: 5, fontSize: 15}}>OTHER BOARDS</Text>
+        <BluetoothDeviceList style={{flex: 2, backgroundColor: '#C8C8C8'}} 
                             onConnect={this._handleConnectDevice}/>
       </View>
     );
@@ -75,50 +81,10 @@ export class Bluetooth extends Component
   _handleConnectDevice(deviceId)
   {
     console.log('Attempting to connect to device with id', deviceId);
-
+    
+    let {dispatch} = this.props;
     this._handleStopScanning();
-    BleManager.connect(deviceId).then((peripheralInfo)=> {
-      // Grab dispatch object to update connected State
-      console.log('Connected');
-      let {dispatch} = this.props;
-
-      // Change app state to BLE connected
-      dispatch(actions.setBLEConnected());
-      
-      let boardInfoCharacteristic = peripheralInfo.characteristics[0];
-
-      // Setup notification for specific service/characteristic
-      BleManager.startNotification(peripheralInfo.id, 
-                                  boardInfoCharacteristic.service,
-                                  boardInfoCharacteristic.characteristic)
-      .then(() => {
-        // Success code
-        console.log('Notification started');
-      })
-      .catch((error) => {
-        // Failure code
-        console.log(error);
-      });
-
-      // Setup handler for on data change
-      NativeAppEventEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', 
-        ({peripheral, characteristic, service, value}) => {
-          BleBoard.decodeRxData(value);
-      });
-
-      let device = {
-        id: peripheralInfo.id,
-        service: peripheralInfo.characteristics[0].service,
-        characteristic: peripheralInfo.characteristics[0].characteristic
-      };
-      console.log("Sending device through dispatch", device);
-      
-      dispatch(actions.addDevice(device));
-      return;
-    }).catch((error)=> {
-      console.log('Could not connect to device');
-      console.log(error);
-    });
+    dispatch(actions.startAddDevice(deviceId));
   }
 
   _handlePressScan ()
@@ -129,6 +95,10 @@ export class Bluetooth extends Component
     }
 
     console.log('Lets look for a Wee-Board!!!');
+    
+    let {dispatch} = this.props;
+    
+    dispatch(actions.clearDeviceList());
     
     let timeout = 10;
     BleManager.scan(['FFE0'], timeout, false).then(()=>{
@@ -148,7 +118,6 @@ export class Bluetooth extends Component
     this.setState({
       timeout,
       scanning: true,
-      bleDevices: [],
     });
   }
 
@@ -165,22 +134,25 @@ export class Bluetooth extends Component
 
   _handleDiscoverPeripheral(data)
   {
+    let {dispatch, deviceList} = this.props;
     if (!this.state.scanning)
     {
       return;
     }
 
-    if (this.state.bleDevices.findIndex((el, index, array)=> el.id === data.id) !== -1)
+    if (deviceList.findIndex((el, index, array)=> el.id === data.id) !== -1)
     {
-      console.log("found duplicate!", data.name, data.id)
+      console.log("found duplicate!", data.name, data.id);
       return;
     }
 
     console.log('Got BLE data', data);
-    this.setState({
-      bleDevices: [...this.state.bleDevices, data]
-    });
+    dispatch(actions.addDeviceToList(data));
   }
 }
 
-export default connect()(Bluetooth);
+export default connect((state) => {
+  return {
+    deviceList: state.deviceList
+  }
+})(Bluetooth);

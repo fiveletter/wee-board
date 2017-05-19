@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, ListView, Text, TouchableHighlight} from 'react-native';
-import BleManager from 'react-native-ble-manager'
+import BleManager from 'react-native-ble-manager';
+import {connect} from 'react-redux';
 
 export class BluetoothDeviceList extends Component
 {
@@ -9,11 +10,8 @@ export class BluetoothDeviceList extends Component
     super(props);
 
     const ds = new ListView.DataSource({rowHasChanged: (r1,r2) => r1 !== r2});
-    let bluetoothDevices = this.props.bleDevices;
-
     this.state = {
-      bluetoothDevices,
-      dataSource: ds.cloneWithRows(bluetoothDevices)
+      dataSource: ds.cloneWithRows([])
     };
 
     this._onPressRow = this._onPressRow.bind(this);
@@ -22,27 +20,26 @@ export class BluetoothDeviceList extends Component
 
   componentWillReceiveProps(nextProps)
   {
-    let {bleDevices} = nextProps;
+    let {deviceList} = nextProps;
     this.setState({
-      bluetoothDevices: bleDevices,
-      dataSource: this.state.dataSource.cloneWithRows(bleDevices)
+      dataSource: this.state.dataSource.cloneWithRows(deviceList)
     });
   }
 
   render() 
   {
-    let {style} = this.props;
+    let {style, deviceList} = this.props;
 
-    if (this.state.bluetoothDevices.length <= 0)
+    if (deviceList.length <= 0)
     {
       return (
-        <View style={style}>
+        <View style={[style, {flex: 0}]}>
           <Text style={{textAlign: 'center', padding: 10}}>No devices found</Text>
         </View>
       );
     }
     return (
-      <View style={style}>
+      <View style={[style, {flex: 0}]}>
         <ListView dataSource={this.state.dataSource} 
                 renderRow={this._renderRow}
                 enableEmptySections={true}/> 
@@ -52,26 +49,12 @@ export class BluetoothDeviceList extends Component
 
   _onPressRow(rowID)
   {
-
-    let {onConnect} = this.props;
-    /* Handle coloring of pressed item */
-    let newArray = this.state.bluetoothDevices.slice();
-    newArray[rowID] = {
-      ...this.state.bluetoothDevices[rowID],
-      connected: !this.state.bluetoothDevices[rowID].connected
-    }
-
-    onConnect(this.state.bluetoothDevices[rowID].id);
-    
-    this.setState({
-      bluetoothDevices: newArray,
-      dataSource: this.state.dataSource.cloneWithRows(newArray)
-    })
+    let {onConnect, deviceList} = this.props;
+    onConnect(deviceList[rowID].id);
   }
 
   _renderRow(rowData, sectionID, rowID) 
   {
-    let rowColor = rowData.connected ? '#ff1493' : '#F6F6F6';
     let name = rowData.name ? rowData.name : 'Undefined' ;
     
     return (
@@ -79,8 +62,7 @@ export class BluetoothDeviceList extends Component
         <View style={{
           flexDirection: 'column',
           justifyContent: 'center',
-          padding: 10,
-          backgroundColor: rowColor
+          padding: 10
         }}>
           <Text>Name: {name}</Text>
           <Text>ID: {rowData.id}</Text>
@@ -90,4 +72,8 @@ export class BluetoothDeviceList extends Component
   }
 }
 
-export default BluetoothDeviceList;
+export default connect((state) => {
+  return {
+    deviceList: state.deviceList
+  }
+})(BluetoothDeviceList);
