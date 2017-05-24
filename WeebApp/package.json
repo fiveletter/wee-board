@@ -22,6 +22,7 @@
     "babel-jest": "19.0.0",
     "babel-preset-react-native": "1.9.1",
     "jest": "19.0.2",
+    "react-native-swiper": "^1.5.4",
     "react-test-renderer": "16.0.0-alpha.6"
   },
   "jest": {

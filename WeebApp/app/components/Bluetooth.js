@@ -60,20 +60,22 @@ export class Bluetooth extends Component
                       `Scanning... (${this.state.countDown})` : 'Find Wee-Board';
     
     return (
-      <View style={{flex: 1, flexDirection: 'column'}}>
+      <View style={styles.rootView}>
         
-        <TouchableHighlight style={{height: 40, marginHorizontal: 10, marginVertical: 20, backgroundColor:'#f5f5f5'}}
+        <TouchableHighlight style={styles.findButton} 
                             onPress={()=> this._handlePressScan()}>
-          <Text style={{flex: 1, padding: 10, textAlign: 'center'}}>
-            {scanButtonText}
-          </Text>
+
+          <Text style={styles.findButtonText}> {scanButtonText} </Text>
+
         </TouchableHighlight>
-        <Text style={{marginLeft: 10, marginBottom: 5, fontSize: 15}}>MY BOARD</Text>
-        <ConnectedDevice style={{marginBottom: 20, paddingTop: 20, paddingBottom: 20, backgroundColor: '#C8C8C8'}}></ConnectedDevice>
+
+        <Text style={styles.headerText}>MY BOARD</Text>
+        <ConnectedDevice style={styles.connectedDevice}></ConnectedDevice>
         
-        <Text style={{marginLeft: 10, marginBottom: 5, fontSize: 15}}>OTHER BOARDS</Text>
-        <BluetoothDeviceList style={{flex: 2, backgroundColor: '#C8C8C8'}} 
+        <Text style={styles.headerText}>OTHER BOARDS</Text>
+        <BluetoothDeviceList style={styles.bluetoothDeviceList} 
                             onConnect={this._handleConnectDevice}/>
+
       </View>
     );
   }
@@ -150,6 +152,63 @@ export class Bluetooth extends Component
     dispatch(actions.addDeviceToList(data));
   }
 }
+
+const styles = StyleSheet.create({
+  rootView: {
+    padding: 10, 
+    flex: 1, 
+    flexDirection: 'column', 
+    backgroundColor: '#42cbec'
+  },
+  findButton: {
+    height: 40, 
+    marginHorizontal: 10, 
+    marginVertical: 20, 
+    backgroundColor: '#FFFF00',
+    overflow: 'hidden',
+    borderRadius: 20,
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowOpacity: 0.3
+  },
+  findButtonText: {
+    flex: 1, 
+    padding: 10, 
+    textAlign: 'center', 
+    color: '#212121'
+  },
+  headerText: {
+    marginLeft: 10, 
+    marginBottom: 5, 
+    fontSize: 15, 
+    color: "#212121"
+  },
+  connectedDevice: {
+    marginBottom: 20, 
+    paddingTop: 20, 
+    paddingBottom: 20, 
+    backgroundColor: 'white',
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowOpacity: 0.3
+  },
+  bluetoothDeviceList: {
+    flex: 2, 
+    backgroundColor: 'white', 
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowOpacity: 0.3
+  }
+});
 
 export default connect((state) => {
   return {

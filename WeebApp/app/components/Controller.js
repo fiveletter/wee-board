@@ -22,7 +22,7 @@ export class Controller extends Component
     }
 
     return (
-      <View style={{flex: 1, flexDirection: 'column'}}>
+      <View style={{paddingTop: 10, flex: 1, flexDirection: 'column'}}>
         <BoardInfo style={{flex: 1, margin: 10, 
                           backgroundColor: backgroundColor}}/>
         <BoardControl style={{flex: 1, margin: 10, justifyContent: 'center'}}/>
