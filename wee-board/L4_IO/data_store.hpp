@@ -12,7 +12,7 @@
 
 typedef struct {
   uint32_t duty_cycle;
-  bool dead_man_active;
+  bool deadman_active;
   bool controller_MIA;
 } Board_Status_t;
 
@@ -20,7 +20,7 @@ class DataStore : public SingletonTemplate<DataStore>
 {
   public:
     void store_duty_cycle(uint32_t data);
-    void store_deadman(bool data);
+    void store_deadman_active(bool data);
     void store_controller_MIA(bool data);
     
     Board_Status_t get_board_status(void);

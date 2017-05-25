@@ -79,14 +79,15 @@ void period_10Hz(void)
     // Deadman Check
     DataStore::getInstance().store_deadman(deadman_check(prox_read()));
     // Trigger the Board_sys_task to run
-    SemaphoreHandle_t sid = scheduler_task::getSharedObject(shared_boardSysSemaphore);
-
-    xSemaphoreGive(sid);
+    SemaphoreHandle_t board_sys_sem = scheduler_task::getSharedObject(shared_boardSysSemaphore);
+    xSemaphoreGive(board_sys_sem);
 }
 
 void period_100Hz(void)
 {
     LE.toggle(3);
+    SemaphoreHandle_t watchdog_sem = scheduler_task::getSharedObject(shared_watchDogSemaphore);
+    xSemaphoreGive(watchdog_sem);
 }
 
 void period_1000Hz(void)

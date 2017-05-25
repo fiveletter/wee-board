@@ -25,7 +25,8 @@
 #ifndef SHARED_HANDLES_H__
 #define SHARED_HANDLES_H__
 
-
+#define DEADMAN_EVENT_BIT     (1 << 0)
+#define COMMAND_RX_EVENT_BIT  (1 << 1)
 
 /**
  * Enumeration of shared handles
@@ -38,6 +39,8 @@ enum {
     shared_diagCmdQueue, ///< gives diagnostic duty cycle
     shared_dutyCycleQueue, ///< Sends decoded UART2 rx data to motor_tasks
     shared_boardSysSemaphore, ///< Periodic trigger to run boardSys
+    shared_watchDogSemaphore, ///< Periodic trigger to run watchdog
+    shared_watchdogEventGroup, ///< Watchdog event group object
 };
 
 

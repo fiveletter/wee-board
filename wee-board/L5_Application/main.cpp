@@ -28,6 +28,7 @@
 #include "examples/examples.hpp"
 #include "motor_tasks.hpp"
 #include "tasks.hpp"
+#include "watchdog_task.hpp"
 
 /**
  * The main() creates tasks or "threads".  See the documentation of scheduler_task class at scheduler_task.hpp
@@ -46,11 +47,13 @@
 int main(void)
 {
     /* Wee Board Tasks*/
-    scheduler_add_task(new SpeedControllerTask(PRIORITY_HIGH));
-    scheduler_add_task(new BLErxTask(PRIORITY_MEDIUM));
+    scheduler_add_task(new WatchDogTask(PRIORITY_HIGH));
+
     scheduler_add_task(new BoardSysTask(PRIORITY_MEDIUM));
-    scheduler_add_task(new terminalTask(PRIORITY_HIGH));
-    scheduler_add_task(new wirelessTask(PRIORITY_CRITICAL));
+    scheduler_add_task(new terminalTask(PRIORITY_MEDIUM));
+    scheduler_add_task(new SpeedControllerTask(PRIORITY_MEDIUM));
+    scheduler_add_task(new BLErxTask(PRIORITY_MEDIUM));
+
     scheduler_add_task(new periodicSchedulerTask());
 
     scheduler_start(); ///< This shouldn't return

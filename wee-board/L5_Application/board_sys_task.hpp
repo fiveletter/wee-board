@@ -67,6 +67,8 @@ class BoardSysTask : public scheduler_task
       JSONObject json_object; ///< ONLY INSTANTIATE ONE OF THESE OBJECTS
       /* Keys for these properties are dictated by the mobile application */
       json_object.set("dutyCycle", status.duty_cycle);
+      json_object.set("commandMIA", status.controller_MIA);
+      json_object.set("deadmanActive", status.deadman_active);
 
       char* json_string = json_object.stringify();
       printf("%s\n", json_string);
