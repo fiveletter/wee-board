@@ -10,7 +10,7 @@
 #include "shared_handles.h"
 #include "event_groups.h"
 
-#define IDLE_DUTY_CYCLE 1600
+#define IDLE_DUTY_CYCLE 1500
 
 class SpeedControllerTask: public scheduler_task
 {

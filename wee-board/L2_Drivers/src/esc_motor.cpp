@@ -4,7 +4,7 @@
 #include "esc_motor.hpp"
 #include "data_store.hpp"
 
-#define MAX_DUTY_CYCLE 2200
+#define MAX_DUTY_CYCLE 2000
 #define MIN_DUTY_CYCLE 1000
 
 EscMotor::EscMotor(pwmType pwm, unsigned int frequencyHz):
