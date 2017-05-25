@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #include "lpc_pwm.hpp"
+#include "data_store.hpp"
 
 /*
   function generator 2ms or 5 Hz
@@ -20,11 +21,12 @@ class EscMotor: public PWM
 {
   public:
     EscMotor(pwmType pwm, unsigned int frequencyHz = 50);
-    bool setDuty(uint32_t microSec);
+    void setDuty(uint32_t microSec);
 
   private:
     uint32_t frequency;
     float percentPerMicroSec;
+    DataStore& dataStore;
 };
 
 #endif /* ESC_MOTOR_HPP__ */

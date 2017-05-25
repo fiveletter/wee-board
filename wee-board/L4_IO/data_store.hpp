@@ -13,6 +13,7 @@
 typedef struct {
   uint32_t duty_cycle;
   bool dead_man_active;
+  bool controller_MIA;
 } Board_Status_t;
 
 class DataStore : public SingletonTemplate<DataStore>
@@ -20,12 +21,13 @@ class DataStore : public SingletonTemplate<DataStore>
   public:
     void store_duty_cycle(uint32_t data);
     void store_deadman(bool data);
+    void store_controller_MIA(bool data);
     
     Board_Status_t get_board_status(void);
 
   private:
-    DataStore();  ///< Private constructor of this Singleton class
-    friend class SingletonTemplate<DataStore>;  ///< Friend class used for Singleton Template
+    DataStore();  
+    friend class SingletonTemplate<DataStore>;
 
     Board_Status_t status;
 };

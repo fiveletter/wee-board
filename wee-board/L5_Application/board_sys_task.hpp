@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "data_store.hpp"
 #include "json_object.hpp"
 #include "uart2.hpp"
 #include "scheduler_task.hpp"
@@ -20,7 +21,8 @@ class BoardSysTask : public scheduler_task
   public:
     BoardSysTask(uint8_t priority) : 
       scheduler_task("BoardSysTask", 3000, priority),
-      uart2(Uart2::getInstance())
+      uart2(Uart2::getInstance()),
+      dataStore(DataStore::getInstance())
     {
       /* DO NOTHING */
     }
@@ -61,19 +63,19 @@ class BoardSysTask : public scheduler_task
 
     void send_tx_data ()
     {
+      Board_Status_t status = dataStore.get_board_status();
       JSONObject json_object; ///< ONLY INSTANTIATE ONE OF THESE OBJECTS
-
       /* Keys for these properties are dictated by the mobile application */
-      json_object.set("speed", 1600);
-      json_object.set("batteryVoltage", 90);
-      json_object.set("light", 12);
+      json_object.set("dutyCycle", status.duty_cycle);
 
       char* json_string = json_object.stringify();
+      printf("%s\n", json_string);
       uart2.put(json_string);
     }
 
   private:
     Uart2& uart2;
+    DataStore& dataStore;
 };
 
 
