@@ -37,6 +37,7 @@ enum {
     shared_UART2rxQueue, ///< Sends UART 2 rx data to BLErxTask
     shared_diagCmdQueue, ///< gives diagnostic duty cycle
     shared_dutyCycleQueue, ///< Sends decoded UART2 rx data to motor_tasks
+    shared_boardSysSemaphore, ///< Periodic trigger to run boardSys
 };
 
 

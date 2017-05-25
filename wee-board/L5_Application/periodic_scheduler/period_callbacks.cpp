@@ -29,8 +29,13 @@
  */
 
 #include <stdint.h>
+#include <stdio.h>
+
+#include "FreeRTOS.h"
 #include "io.hpp"
 #include "periodic_callback.h"
+#include "shared_handles.h"
+#include "scheduler_task.hpp"
 
 
 
@@ -68,6 +73,13 @@ void period_1Hz(void)
 void period_10Hz(void)
 {
     LE.toggle(2);
+    
+    // Deadman Check
+
+    // Trigger the Board_sys_task to run
+    SemaphoreHandle_t sid = scheduler_task::getSharedObject(shared_boardSysSemaphore);
+
+    xSemaphoreGive(sid);
 }
 
 void period_100Hz(void)

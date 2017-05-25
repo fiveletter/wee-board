@@ -32,10 +32,31 @@ class BoardSysTask : public scheduler_task
 
     bool init(void)
     {
+      SemaphoreHandle_t periodicSem = xSemaphoreCreateBinary();
+      addSharedObject(shared_boardSysSemaphore, periodicSem);
+
       return true;
     }
 
     bool run(void *p)
+    {
+      SemaphoreHandle_t sys_board_sem = getSharedObject(shared_boardSysSemaphore);
+      
+      while (xSemaphoreTake(sys_board_sem, portMAX_DELAY))
+      {
+        state_machine();
+        send_tx_data();
+      }
+
+      return true;
+    }
+
+    void state_machine()
+    {
+      /* DO NOTHING */
+    }
+
+    void send_tx_data ()
     {
       JSONObject json_object; ///< ONLY INSTANTIATE ONE OF THESE OBJECTS
 
@@ -45,10 +66,7 @@ class BoardSysTask : public scheduler_task
       json_object.set("light", 12);
 
       char* json_string = json_object.stringify();
-      printf("sending value %s\n", json_string);
       uart2.put(json_string);
-      vTaskDelay(1000);
-      return true;
     }
 
   private:

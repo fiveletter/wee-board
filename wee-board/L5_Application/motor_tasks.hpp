@@ -13,7 +13,7 @@ class SpeedControllerTask: public scheduler_task
   public:
     SpeedControllerTask(uint8_t priority): 
         scheduler_task("SpeedControllerTask", 1000, priority), 
-        motor1(EscMotor::pwm1, 500),
+        motor1(EscMotor::pwm1, 100),
         xQueueSet(0)
     {
       /* DO NOTHING */
@@ -39,7 +39,7 @@ class SpeedControllerTask: public scheduler_task
       xQueueAddToSet(duty_cycle_q, xQueueSet);
 
       // Set duty cycle to 0 
-      motor1.setDuty((uint32_t)1500);
+      motor1.setDuty((uint32_t)1600);
       return true;
     }
 
