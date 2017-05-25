@@ -60,7 +60,6 @@ class SpeedControllerTask: public scheduler_task
         uint16_t duty_cycle = 0;
         xQueueReceive(duty_cycle_q, &duty_cycle, 0);
         
-        printf("Setting duty Cycle to %d\n", duty_cycle);
         motor1.setDuty(duty_cycle);
       }
 
