@@ -80,7 +80,6 @@ void period_10Hz(void)
     LE.toggle(2);
     
     // Deadman Check
-    //DataStore::getInstance().store_deadman_active(deadman_check(prox_read()));
     if(deadman_check(prox_read())){
     	EventGroupHandle_t watchdogEvent = scheduler_task::getSharedObject(shared_watchdogEventGroup);
     	xEventGroupSetBits(watchdogEvent, DEADMAN_EVENT_BIT);

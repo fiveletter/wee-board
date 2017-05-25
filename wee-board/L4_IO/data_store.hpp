@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 
+#include "shared_handles.h"
 #include "FreeRTOS.h"
 #include "LPC17xx.h"
 #include "semphr.h"
@@ -22,14 +23,17 @@ class DataStore : public SingletonTemplate<DataStore>
     void store_duty_cycle(uint32_t data);
     void store_deadman_active(bool data);
     void store_controller_MIA(bool data);
+    void store_board_state(BoardStates_E state);
     
     Board_Status_t get_board_status(void);
+    bool board_can_receive_command(void);
 
   private:
     DataStore();  
     friend class SingletonTemplate<DataStore>;
 
     Board_Status_t status;
+    BoardStates_E board_state;
 };
 
 

@@ -28,6 +28,14 @@
 #define DEADMAN_EVENT_BIT     (1 << 0)
 #define COMMAND_RX_EVENT_BIT  (1 << 1)
 
+typedef enum {
+  BOARD_IDLE = 0,
+  BOARD_ATTEMPT_TO_RUN,
+  BOARD_RUNNING,
+  BOARD_ERROR
+} BoardStates_E;
+
+
 /**
  * Enumeration of shared handles
  * You can add additional IDs here to use addSharedHandle() and getSharedHandle() API

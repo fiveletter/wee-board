@@ -4,10 +4,13 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#include "data_store.hpp"
 #include "esc_motor.hpp"
 #include "scheduler_task.hpp"
 #include "shared_handles.h"
 #include "event_groups.h"
+
+#define IDLE_DUTY_CYCLE 1600
 
 class SpeedControllerTask: public scheduler_task
 {
@@ -15,7 +18,8 @@ class SpeedControllerTask: public scheduler_task
     SpeedControllerTask(uint8_t priority): 
         scheduler_task("SpeedControllerTask", 1000, priority), 
         motor1(EscMotor::pwm1, 100),
-        xQueueSet(0)
+        xQueueSet(0),
+        dataStore(DataStore::getInstance())
     {
       /* DO NOTHING */
     }
@@ -40,7 +44,7 @@ class SpeedControllerTask: public scheduler_task
       xQueueAddToSet(duty_cycle_q, xQueueSet);
 
       // Set duty cycle to 0 
-      motor1.setDuty((uint32_t)1600);
+      motor1.setDuty((uint32_t)IDLE_DUTY_CYCLE);
       return true;
     }
 
@@ -58,12 +62,20 @@ class SpeedControllerTask: public scheduler_task
       }
       else if (event == duty_cycle_q)
       {
-        uint16_t duty_cycle = 0;
-        xQueueReceive(duty_cycle_q, &duty_cycle, 0);
-        
-        motor1.setDuty(duty_cycle);
         EventGroupHandle_t watchdogEvent = scheduler_task::getSharedObject(shared_watchdogEventGroup);
         xEventGroupSetBits(watchdogEvent, COMMAND_RX_EVENT_BIT);
+        
+        uint16_t duty_cycle = 0;
+        xQueueReceive(duty_cycle_q, &duty_cycle, 0);
+
+        if (dataStore.board_can_receive_command())
+        {
+          motor1.setDuty(duty_cycle);
+        }
+        else
+        {
+          motor1.setDuty(IDLE_DUTY_CYCLE);
+        }
       }
 
       return true;
@@ -72,6 +84,7 @@ class SpeedControllerTask: public scheduler_task
   private:
     EscMotor motor1;
     QueueSetHandle_t xQueueSet;
+    DataStore& dataStore;
 };
 
 #endif /* MOTOR_TASKS_HPP_ */
