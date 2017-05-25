@@ -15,7 +15,7 @@ typedef struct {
   bool dead_man_active;
 } Board_Status_t;
 
-class DataStore : public SingletonTemplate<Uart2>
+class DataStore : public SingletonTemplate<DataStore>
 {
   public:
     void store_duty_cycle(uint32_t data);
@@ -25,7 +25,7 @@ class DataStore : public SingletonTemplate<Uart2>
 
   private:
     DataStore();  ///< Private constructor of this Singleton class
-    friend class SingletonTemplate<Uart2>;  ///< Friend class used for Singleton Template
+    friend class SingletonTemplate<DataStore>;  ///< Friend class used for Singleton Template
 
     Board_Status_t status;
 };
