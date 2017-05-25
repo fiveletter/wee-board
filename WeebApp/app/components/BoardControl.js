@@ -21,6 +21,7 @@ export class BoardControl extends Component
 
     this.state = {
       currentSpeed: 0,
+      dutyCycleInterval: undefined,
       sound1: new Sound ('goku-scream-1.wav', Sound.MAIN_BUNDLE, (error)=> {
         if (error)
         {
@@ -46,6 +47,7 @@ export class BoardControl extends Component
 
 
     this._handleControl = this._handleControl.bind(this);
+    this._setDutyCycleInterval = this._setDutyCycleInterval.bind(this);
     this._control1 = this._control1.bind(this);
     this._control2 = this._control2.bind(this);
     this._control3 = this._control3.bind(this);
@@ -173,7 +175,7 @@ export class BoardControl extends Component
     });
 
     let {device} = this.props;
-    BleBoard.sendDutyCycle(device.id, device.service, device.characteristic, 1600);
+    this._setDutyCycleInterval(1700);
   }
 
   _control2(currentSpeed)
@@ -190,7 +192,7 @@ export class BoardControl extends Component
     });
     
     let {device} = this.props;
-    BleBoard.sendDutyCycle(device.id, device.service, device.characteristic, 1700);
+    this._setDutyCycleInterval(1800);
   }
 
   _control3(currentSpeed)
@@ -206,8 +208,7 @@ export class BoardControl extends Component
       }
     });
 
-    let {device} = this.props;
-    BleBoard.sendDutyCycle(device.id, device.service, device.characteristic, 1800);
+    this._setDutyCycleInterval(1850);
   }
 
   _control4(currentSpeed)
@@ -216,7 +217,27 @@ export class BoardControl extends Component
     this._stopAllSounds();
 
     let {device} = this.props;
-    BleBoard.sendDutyCycle(device.id, device.service, device.characteristic, 1500);
+    this._setDutyCycleInterval(1600);
+  }
+
+  _setDutyCycleInterval(dutyCycle)
+  {
+    let {dutyCycleInterval} = this.state;
+    let {device} = this.props;
+    
+    if (dutyCycleInterval != undefined)
+    {
+      clearInterval(dutyCycleInterval);
+    }
+    
+    let intervalId = setInterval(() => {
+      console.log("BOO! Sending duty cycle value", dutyCycle);
+      BleBoard.sendDutyCycle(device.id, device.service, device.characteristic, dutyCycle);
+    }, 500);
+
+    this.setState({
+      dutyCycleInterval: intervalId
+    });
   }
 
   _stopAllSounds()

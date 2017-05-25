@@ -23,7 +23,7 @@ export class Root extends Component
     {
       controller= <ErrorComponent 
                   label="Device not connected" 
-                  subText="Swipe right to connect to device"/>
+                  subText="Swipe someplace to connect to device"/>
     }
 
     return (
