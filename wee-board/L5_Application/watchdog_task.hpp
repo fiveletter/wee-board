@@ -75,6 +75,10 @@ class WatchDogTask : public scheduler_task
           printf("Deadman timer did not reset\n");
         }
 
+        //Clear watchdog event bits
+        EventGroupHandle_t watchdogEvents = scheduler_task::getSharedObject(shared_watchdogEventGroup);
+        xEventGroupClearBits(watchdogEvents, DEADMAN_EVENT_BIT | COMMAND_RX_EVENT_BIT);
+
         dataStore.store_controller_MIA(command_MIA_timer.expired());
         dataStore.store_deadman_active(deadman_timer.expired());
       }

@@ -7,6 +7,7 @@
 #include "esc_motor.hpp"
 #include "scheduler_task.hpp"
 #include "shared_handles.h"
+#include "event_groups.h"
 
 class SpeedControllerTask: public scheduler_task
 {
@@ -61,6 +62,8 @@ class SpeedControllerTask: public scheduler_task
         xQueueReceive(duty_cycle_q, &duty_cycle, 0);
         
         motor1.setDuty(duty_cycle);
+        EventGroupHandle_t watchdogEvent = scheduler_task::getSharedObject(shared_watchdogEventGroup);
+        xEventGroupSetBits(watchdogEvent, COMMAND_RX_EVENT_BIT);
       }
 
       return true;

@@ -38,6 +38,7 @@
 #include "scheduler_task.hpp"
 #include "prox_sensor.hpp"
 #include "data_store.hpp"
+#include "event_groups.h"
 
 
 
@@ -70,6 +71,8 @@ bool period_reg_tlm(void)
 void period_1Hz(void)
 {
     LE.toggle(1);
+    SemaphoreHandle_t watchdog_sem = scheduler_task::getSharedObject(shared_watchDogSemaphore);
+    xSemaphoreGive(watchdog_sem);
 }
 
 void period_10Hz(void)
@@ -77,7 +80,11 @@ void period_10Hz(void)
     LE.toggle(2);
     
     // Deadman Check
-    DataStore::getInstance().store_deadman(deadman_check(prox_read()));
+    //DataStore::getInstance().store_deadman_active(deadman_check(prox_read()));
+    if(deadman_check(prox_read())){
+    	EventGroupHandle_t watchdogEvent = scheduler_task::getSharedObject(shared_watchdogEventGroup);
+    	xEventGroupSetBits(watchdogEvent, DEADMAN_EVENT_BIT);
+    }
     // Trigger the Board_sys_task to run
     SemaphoreHandle_t board_sys_sem = scheduler_task::getSharedObject(shared_boardSysSemaphore);
     xSemaphoreGive(board_sys_sem);
@@ -86,8 +93,6 @@ void period_10Hz(void)
 void period_100Hz(void)
 {
     LE.toggle(3);
-    SemaphoreHandle_t watchdog_sem = scheduler_task::getSharedObject(shared_watchDogSemaphore);
-    xSemaphoreGive(watchdog_sem);
 }
 
 void period_1000Hz(void)
