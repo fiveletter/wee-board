@@ -23,6 +23,7 @@
 
 void DataStore::store_deadman(bool data)
 {
+	//u0_dbg_printf("\nDeadman %d", data);
     status.dead_man_active = data;
 }
 

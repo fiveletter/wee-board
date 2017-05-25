@@ -36,6 +36,8 @@
 #include "periodic_callback.h"
 #include "shared_handles.h"
 #include "scheduler_task.hpp"
+#include "prox_sensor.hpp"
+#include "data_store.hpp"
 
 
 
@@ -75,7 +77,7 @@ void period_10Hz(void)
     LE.toggle(2);
     
     // Deadman Check
-
+    DataStore::getInstance().store_deadman(deadman_check(prox_read()));
     // Trigger the Board_sys_task to run
     SemaphoreHandle_t sid = scheduler_task::getSharedObject(shared_boardSysSemaphore);
 

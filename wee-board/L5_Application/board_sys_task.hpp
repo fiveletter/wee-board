@@ -13,6 +13,7 @@
 #include "uart2.hpp"
 #include "scheduler_task.hpp"
 #include "shared_handles.h"
+#include "prox_sensor.hpp"
 
 class BoardSysTask : public scheduler_task
 {
@@ -26,6 +27,8 @@ class BoardSysTask : public scheduler_task
 
     bool taskEntry(void)
     {
+      prox_reset();
+      prox_set_continuous();
       uart2.init(9600);
       return true;
     }
