@@ -25,10 +25,11 @@ export let startAddDevice = (deviceId) => {
 
         let characteristicIndex = 0; //< CHANGE INDEX TO GET PROPER CHARACTERISTIC
         console.log('Connected');
+        console.log(peripheralInfo);
         let boardInfoCharacteristic = peripheralInfo.characteristics[characteristicIndex];
 
         /* Uncomment this if you want to receive data from a characteristic
-        
+
           // Setup notification for specific service/characteristic
           BleManager.startNotification(peripheralInfo.id, 
                                       boardInfoCharacteristic.service,
