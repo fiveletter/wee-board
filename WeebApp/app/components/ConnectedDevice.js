@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, ListView, Text, TouchableHighlight, Image, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 
-let boardClipArt = require('../resources/board.png');
+let corgiClipArt = require('../resources/corgi.png');
 
 export class ConnectedDevice extends Component 
 {
@@ -20,7 +20,7 @@ export class ConnectedDevice extends Component
       return ( 
         <View style={style, styles.notConnectedView}>
           <Image  style={styles.notConnectedImage} 
-            source={boardClipArt}/>
+            source={corgiClipArt}/>
           <Text style={styles.notConnectedText}>No Device Connected</Text>
         </View>
       );
@@ -43,7 +43,7 @@ const styles = StyleSheet.create(
       marginBottom: 25
     },
     notConnectedText: {
-      paddingTop: 75, 
+      paddingTop: 95, 
       textAlign: 'center', 
       fontSize: 20
     },

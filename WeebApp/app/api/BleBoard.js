@@ -4,13 +4,12 @@ import store from '../store/configure.store.js';
 import * as actions from '../actions/actions.js';
 
 
-export let sendDutyCycle = function (id, service, characteristic, duty)
+export let sendTxData = function (id, service, characteristic, duty)
 {
-  let byte_array = new Uint8Array(4);
-  byte_array[0] = '$'.charCodeAt(0);
+  let byte_array = new Uint8Array(3);
+  byte_array[0] = (duty & 0xFF0000) >> 16;
   byte_array[1] = (duty & 0xFF00) >> 8;
   byte_array[2] = (duty & 0xFF);
-  byte_array[3] = '~'.charCodeAt(0);
 
   BleManager.writeWithoutResponse(
     id,

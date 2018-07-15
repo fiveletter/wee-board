@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Swiper from 'react-native-swiper';
 
-import Controller from './Controller.js';
 import Bluetooth from './Bluetooth.js';
-import ErrorComponent from './ErrorComponent.js';
 
 
 export class Root extends Component 
@@ -17,14 +15,6 @@ export class Root extends Component
   render ()
   {
     let {bleConnected} = this.props;
-    let controller = <Controller/>
-    
-    if (!bleConnected)
-    {
-      controller= <ErrorComponent 
-                  label="Device not connected" 
-                  subText="Swipe someplace to connect to device"/>
-    }
 
     return (
       <Swiper
@@ -32,7 +22,6 @@ export class Root extends Component
         showsPagination={false}
         index={1}>
         <Bluetooth/>
-        {controller}
       </Swiper>
     )
   }

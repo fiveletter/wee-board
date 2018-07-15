@@ -39,10 +39,6 @@
 		6F21A71AE1C345E698787683 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F730D0F6ABD4B66AB24BB2A /* libRNSound.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		905BC8F81EC90BA3006F6CC9 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 905BC8F71EC90BA3006F6CC9 /* assets */; };
-		90A2E5431EBFC94800106898 /* goku-scream-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 90A2E53F1EBFC94800106898 /* goku-scream-1.wav */; };
-		90A2E5441EBFC94800106898 /* goku-scream-2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 90A2E5401EBFC94800106898 /* goku-scream-2.wav */; };
-		90A2E5451EBFC94800106898 /* goku-scream-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 90A2E5411EBFC94800106898 /* goku-scream-3.wav */; };
-		90A2E5461EBFC94800106898 /* la-cuca.wav in Resources */ = {isa = PBXBuildFile; fileRef = 90A2E5421EBFC94800106898 /* la-cuca.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -279,10 +275,6 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		905BC8F71EC90BA3006F6CC9 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
-		90A2E53F1EBFC94800106898 /* goku-scream-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "goku-scream-1.wav"; path = "../app/resources/goku-scream-1.wav"; sourceTree = "<group>"; };
-		90A2E5401EBFC94800106898 /* goku-scream-2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "goku-scream-2.wav"; path = "../app/resources/goku-scream-2.wav"; sourceTree = "<group>"; };
-		90A2E5411EBFC94800106898 /* goku-scream-3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "goku-scream-3.wav"; path = "../app/resources/goku-scream-3.wav"; sourceTree = "<group>"; };
-		90A2E5421EBFC94800106898 /* la-cuca.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "la-cuca.wav"; path = "../app/resources/la-cuca.wav"; sourceTree = "<group>"; };
 		C2A30F40B200436B8A112879 /* libBleManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBleManager.a; sourceTree = "<group>"; };
 		FF96F4713AF9499AA34FF908 /* RNSound.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSound.xcodeproj; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -503,6 +495,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* WeebAppTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				901C3E5420FAF94400EB25C0 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -527,6 +520,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		901C3E5420FAF94400EB25C0 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				C2A30F40B200436B8A112879 /* libBleManager.a */,
+				3F730D0F6ABD4B66AB24BB2A /* libRNSound.a */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		90A2E51E1EBFC47A00106898 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -538,10 +540,6 @@
 		90A2E53E1EBFC93600106898 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				90A2E53F1EBFC94800106898 /* goku-scream-1.wav */,
-				90A2E5401EBFC94800106898 /* goku-scream-2.wav */,
-				90A2E5411EBFC94800106898 /* goku-scream-3.wav */,
-				90A2E5421EBFC94800106898 /* la-cuca.wav */,
 			);
 			name = Sounds;
 			sourceTree = "<group>";
@@ -930,13 +928,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90A2E5431EBFC94800106898 /* goku-scream-1.wav in Resources */,
-				90A2E5451EBFC94800106898 /* goku-scream-3.wav in Resources */,
 				905BC8F81EC90BA3006F6CC9 /* assets in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				90A2E5441EBFC94800106898 /* goku-scream-2.wav in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				90A2E5461EBFC94800106898 /* la-cuca.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

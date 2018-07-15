@@ -22,26 +22,31 @@ export let startAddDevice = (deviceId) => {
     return BleManager.connect(deviceId)
       .then((peripheralInfo)=> {
         // Grab dispatch object to update connected State
+
+        let characteristicIndex = 0; //< CHANGE INDEX TO GET PROPER CHARACTERISTIC
         console.log('Connected');
-        let boardInfoCharacteristic = peripheralInfo.characteristics[0];
+        let boardInfoCharacteristic = peripheralInfo.characteristics[characteristicIndex];
 
-        // Setup notification for specific service/characteristic
-        BleManager.startNotification(peripheralInfo.id, 
-                                    boardInfoCharacteristic.service,
-                                    boardInfoCharacteristic.characteristic)
-        .then(() => console.log('Notification started'))
-        .catch((error) => console.log(error));
+        /* Uncomment this if you want to receive data from a characteristic
+        
+          // Setup notification for specific service/characteristic
+          BleManager.startNotification(peripheralInfo.id, 
+                                      boardInfoCharacteristic.service,
+                                      boardInfoCharacteristic.characteristic)
+          .then(() => console.log('Notification started'))
+          .catch((error) => console.log(error));
 
-        // Setup handler for on data change
-        NativeAppEventEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', 
-          ({peripheral, characteristic, service, value}) => {
-            BleBoard.decodeRxData(value);
-        });
+          // Setup handler for on data change
+          NativeAppEventEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', 
+            ({peripheral, characteristic, service, value}) => {
+              BleBoard.decodeRxData(value);
+          });
+        */
 
         let device = {
           id: peripheralInfo.id,
-          service: peripheralInfo.characteristics[0].service,
-          characteristic: peripheralInfo.characteristics[0].characteristic
+          service: peripheralInfo.characteristics[characteristicIndex].service,
+          characteristic: peripheralInfo.characteristics[characteristicIndex].characteristic
         };
         
         console.log('FIND ME:',peripheralInfo);
